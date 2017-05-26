@@ -1,2 +1,2 @@
 # remember
-備忘錄（<a href="javascript:;">http://localhost/remember/</a>），使用react.js框架編寫
+備忘錄（<a href="http://localhost/remember/">http://localhost/remember/</a>），使用react.js框架編寫
