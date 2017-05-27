@@ -1,7 +1,7 @@
 @charset 'utf-8';
 
 html,body{
-  background:#fffdea;
+  background:#00fee3;
 }
 a{
   color:#e300fe;
@@ -31,10 +31,11 @@ h2{
   width: 700px;
   height: 100%;
   border-radius:5px 5px 0 0;
+  overflow: hidden;
 }
 /*完成與未完成*/
 .tab{
-  border-bottom:1px solid #EAEAEA;
+  border-bottom:1px dotted #EAEAEA;
   height: 50px;
   line-height: 72px;
   text-align: right;
@@ -47,13 +48,13 @@ h2{
   text-align: center;
   height: 30px;
   line-height: 30px;
-  border: 1px solid #FFF;
-  border-bottom: 1px solid #EAEAEA;
+  border: 1px dotted #FFF;
+  border-bottom: 1px dotted #EAEAEA;
   border-radius: 3px 3px 0 0;
 }
 .tab a.active{
-  border: 1px solid #EAEAEA;
-  border-bottom: 1px solid #FFF;
+  border: 1px dotted #EAEAEA;
+  border-bottom: 1px dotted #FFF;
   font-weight: bold;
   color: #222;
 }
@@ -63,9 +64,9 @@ h2{
   line-height: 60px;
   padding-left: 20px;
   padding-right: 20px;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px dotted #EAEAEA;
 }
-.global_operate p{
+.global_operate p,.delete{
   display: inline-block;
   border: 1px solid #EAEAEA;
   height: 26px;
@@ -79,19 +80,18 @@ h2{
   width: 26px;
 }
 .select input{}
+
 .delete{
+  color: #666;
   width: 60px;
 }
-.delete a{
-  display: block;
-  color: #666;
-}
-.delete a:hover{
+a.delete:hover{
   color: #000;
+  border: 1px solid #000;
 }
 /*添加任務*/
 .add{
-  border-bottom:1px solid #EAEAEA;
+  border-bottom:1px dotted #EAEAEA;
   padding: 10px 20px;
   text-align: right;
 }
@@ -102,16 +102,20 @@ h2{
 }*/
 .add input{
   display: block;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border:1px solid #E1E1E1;
   border-radius: 3px;
   width: 100%;
   margin-bottom: 10px;
 }
+.add input:focus{
+  border: 1px solid #e300fe;
+  color: #000;
+}
 .add button{
   display: inline-block;
   color: #FFF;
-  background: #2e8ceb;
+  background: #e300fe;
   padding: 6px 20px;
   /*border: 2px solid #2e8ceb;*/
   border: none;
@@ -122,13 +126,51 @@ h2{
   box-shadow: 0px -2px 0px rgba(0,0,0,.3) inset;
 }
 .add button:disabled{
-  opacity: 0.6;
+  opacity: 0.39;
   cursor: default;
   box-shadow:none;
 }
+/*任務列表*/
+.task_list{
+  /*background: red;*/
+  position: relative;
+}
+.bg_line p{
+  border-bottom:1px dotted #EAEAEA;
+  height: 33px;
+  line-height: 33px;
+}
+.task_list ul{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.task_list ul li{
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 1px;
+}
 
-
-
+.task_list ul li:hover,.task_list ul li.active{
+  background: #fffbd7;
+}
+.task_list ul li label{
+  height: 28px;
+  line-height: 28px;
+  margin-left: 20px;
+  display: block;
+  border-left:3px solid #D1D1D1;
+  padding-left: 4px;
+  padding-right: 20px;
+}
+.task_list ul li input{
+  margin-right: 6px;
+}
+.task_list ul li span{
+  color: #000;
+  font-size: 15px;
+}
 
 
 
