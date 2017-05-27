@@ -66,7 +66,7 @@ h2{
   padding-right: 20px;
   border-bottom: 1px dotted #EAEAEA;
 }
-.global_operate p,.delete{
+.global_operate p,.delete,.complete{
   display: inline-block;
   border: 1px solid #EAEAEA;
   height: 26px;
@@ -81,13 +81,19 @@ h2{
 }
 .select input{}
 
-.delete{
+.delete,.complete{
   color: #666;
-  width: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-a.delete:hover{
+a.complete:hover{
   color: #000;
   border: 1px solid #000;
+}
+a.delete:hover{
+  color: #FFF;
+  background: #fe6400;
+  border: 1px solid #fe6400;
 }
 /*添加任務*/
 .add{
