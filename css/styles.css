@@ -13,6 +13,7 @@ a{
   padding-left: 10px;
   position: relative;
 }
+/*h2唯一*/
 h2{
   position: absolute;
   left: 0;
@@ -24,12 +25,14 @@ h2{
   text-decoration: underline;
   display: none;
 }
+/*remember包裹標籤*/
 .remember{
   background: #FFF;
   width: 700px;
   height: 100%;
   border-radius:5px 5px 0 0;
 }
+/*完成與未完成*/
 .tab{
   border-bottom:1px solid #EAEAEA;
   height: 50px;
@@ -38,15 +41,6 @@ h2{
   padding-right: 50px;
   position: relative;
 }
-/*.tab h2{
-  font-size: 15px;
-  font-weight: 500;
-  color: #666;
-  position: absolute;
-  left: 10px;
-  bottom:5px;
-  line-height: 1em;
-}*/
 .tab a{
   display: inline-block;
   width: 90px;
@@ -63,3 +57,89 @@ h2{
   font-weight: bold;
   color: #222;
 }
+/*選擇與刪除*/
+.global_operate{
+  height: 60px;
+  line-height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid #EAEAEA;
+}
+.global_operate p{
+  display: inline-block;
+  border: 1px solid #EAEAEA;
+  height: 26px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 3px;
+  background: #FFF;
+  margin-right: 15px;
+}
+.select{
+  width: 26px;
+}
+.select input{}
+.delete{
+  width: 60px;
+}
+.delete a{
+  display: block;
+  color: #666;
+}
+.delete a:hover{
+  color: #000;
+}
+/*添加任務*/
+.add{
+  border-bottom:1px solid #EAEAEA;
+  padding: 10px 20px;
+  text-align: right;
+}
+/*.add p{
+  padding: 5px 10px;
+  border:1px solid #E1E1E1;
+  border-radius: 3px;
+}*/
+.add input{
+  display: block;
+  padding: 5px 10px;
+  border:1px solid #E1E1E1;
+  border-radius: 3px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.add button{
+  display: inline-block;
+  color: #FFF;
+  background: #2e8ceb;
+  padding: 6px 20px;
+  /*border: 2px solid #2e8ceb;*/
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.add button:hover{
+  box-shadow: 0px -2px 0px rgba(0,0,0,.3) inset;
+}
+.add button:disabled{
+  opacity: 0.6;
+  cursor: default;
+  box-shadow:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*end*/
