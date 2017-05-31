@@ -13,6 +13,9 @@ a{
   padding-left: 10px;
   position: relative;
 }
+#container section{
+  height: 100%;
+}
 /*h2唯一*/
 h2{
   position: absolute;
@@ -178,8 +181,36 @@ a.delete:hover{
   font-size: 15px;
 }
 
-
-
+.detail{
+  position: absolute;
+  left:750px;
+  top:100px;
+  background: #FFF;
+  width: 300px;
+  padding:20px 30px;
+}
+.detail input{
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #f7b6ff;
+}
+.detail textarea{
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 5px 10px;
+  height: 150px;
+  border: 1px solid #f7b6ff;
+}
+.detail button{
+  padding: 5px 20px;
+  border: 1px solid #f7b6ff;
+  color: #000;
+  background: #FFF;
+  margin-top: 10px;
+  margin-right: 10px;
+}
 
 
 

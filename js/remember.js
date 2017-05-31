@@ -1,20 +1,23 @@
-var eleRemember=document.querySelector('.remember');
+var eleContainer=document.querySelector('#container');
 
-// 類Remember
-class Remember extends React.Component{
+// 類R
+class R extends React.Component{
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   //包括 Tab，GlobalOperate，Add，TaskList
   render(){
     return (
-      <div>
-        <Tab />
-        <GlobalOperate />
-        <Add />
-        <TaskList />
-      </div>
+      <section className="capital_r">
+        <div className="remember">
+          <Tab />
+          <GlobalOperate />
+          <Add />
+          <TaskList />
+        </div>
+        <Detail />
+      </section>
     );
   }
 }
@@ -23,7 +26,7 @@ class Remember extends React.Component{
 class Tab extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   render(){
     return (
@@ -38,7 +41,7 @@ class Tab extends React.Component{
 class GlobalOperate extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   render(){
     return (
@@ -54,7 +57,7 @@ class GlobalOperate extends React.Component{
 class Add extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   render(){
     return (
@@ -69,7 +72,7 @@ class Add extends React.Component{
 class TaskList extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   render(){
     return (
@@ -89,13 +92,30 @@ class TaskList extends React.Component{
           <li>
             <label>
               <input type="checkbox" name="" value="" />
-              <span>聽說、ka</span>
+              <span>聽說、ka2</span>
             </label>
           </li>
         </ul>
       </div>
     );
   };
+}
+// 類detail
+class Detail extends React.Component{
+  constructor(props){
+    super(props);
+    console.log(props);
+  }
+  render(){
+    return (
+      <div className="detail">
+        <input type="text" value="" placeholder="任務" />
+        <textarea placeholder="心得"></textarea>
+        <button type="button">確定</button>
+        <button type="button">取消</button>
+      </div>
+    );
+  }
 }
 
 
@@ -117,5 +137,4 @@ class TaskList extends React.Component{
 
 
 
-
-ReactDOM.render(<Remember />,eleRemember);
+ReactDOM.render(<R />,eleContainer);
