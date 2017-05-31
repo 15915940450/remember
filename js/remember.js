@@ -5,6 +5,7 @@ class R extends React.Component{
   constructor(props) {
     super(props);
     // console.log(props);
+    this.state={li:[]};
   }
   //包括 Tab，GlobalOperate，Add，TaskList
   render(){
@@ -75,15 +76,19 @@ class TaskList extends React.Component{
     // console.log(props);
   }
   render(){
+    //arrP 畫筆記本橫線
+    var numLine=20;
+    var arrP=[];
+    for(var i=0;i<numLine;i++){
+      arrP.push(<p key={i}></p>);
+    }
     return (
       <div className="task_list">
         <div className="bg_line">
-          <p></p>
-          <p></p>
-          <p></p>
+          {arrP}
         </div>
         <ul>
-          <li className="active">
+          <li>
             <label>
               <input type="checkbox" name="" value="" />
               <span>聽說、ka</span>
