@@ -165,7 +165,7 @@ a.delete:hover{
 .task_list ul li:hover,.task_list ul li.active{
   background: #fffbd7;
 }
-.task_list ul li label{
+.task_list ul li p{
   height: 28px;
   line-height: 28px;
   margin-left: 20px;

@@ -17,6 +17,15 @@ class R extends React.Component{
     arrStateLi[i].bSelect=!arrStateLi[i].bSelect;
     this.setState({li:arrStateLi});
   }
+  rSelectSingle(i){
+    var arrStateLi=this.state.li;
+    for(var j=0;j<arrStateLi.length;j++){
+      arrStateLi[j].bSelect=false;
+    }
+    arrStateLi[i].bSelect=true;
+    // console.log(JSON.stringify(arrStateLi));
+    this.setState({li:arrStateLi});
+  }
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
     return (
@@ -25,7 +34,7 @@ class R extends React.Component{
           <Tab />
           <GlobalOperate />
           <Add />
-          <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} />
+          <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
         <Detail propLi={this.state.li} />
       </section>
@@ -90,6 +99,15 @@ class TaskList extends React.Component{
       this.props.rSelectLi(i);
     }
   }
+  selectSingle(i){
+    return ()=>{
+      this.props.rSelectSingle(i);
+    }
+  }
+  //stopPropagation:以防對p的點擊事件selectSingle造成影響
+  stop(ev){
+    ev.stopPropagation();
+  }
   render(){
     //arrP 畫筆記本橫線
     var numLine=20;
@@ -104,10 +122,10 @@ class TaskList extends React.Component{
       var strActiveOrNot=v.bSelect?'active':'';
       return (
         <li key={v.numTimestampHaomiao} className={strActiveOrNot}>
-          <label>
-            <input checked={v.bSelect} type="checkbox" onChange={this.selectLi(i).bind(this)} />
+          <p onClick={this.selectSingle(i).bind(this)}>
+            <input checked={v.bSelect} type="checkbox" onClick={this.stop.bind(this)} onChange={this.selectLi(i).bind(this)} />
             <span>{v.strNeirong}</span>
-          </label>
+          </p>
         </li>
       );
     });
@@ -127,7 +145,7 @@ class TaskList extends React.Component{
 class Detail extends React.Component{
   constructor(props){
     super(props);
-    console.log(JSON.stringify(props));
+    // console.log(JSON.stringify(props));
   }
   render(){
     var Rdata=this.props.propLi;
@@ -139,10 +157,11 @@ class Detail extends React.Component{
         numLiIndex=i;
       }
     }
+
     //當只選中一個，則顯示任務詳情，否則返回null，不顯示
     if(numSelect===1){
       return (
-        <div className="detail">
+        <div className="detail" key={Math.random()}>
           <input type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" />
           <textarea defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得"></textarea>
           <button type="button">確定</button>
