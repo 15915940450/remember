@@ -54,6 +54,7 @@ h2{
   border: 1px dotted #FFF;
   border-bottom: 1px dotted #EAEAEA;
   border-radius: 3px 3px 0 0;
+  background: #FFF;
 }
 .tab a.active{
   border: 1px dotted #EAEAEA;
@@ -193,7 +194,8 @@ a.delete:hover{
   display: block;
   width: 100%;
   padding: 5px 10px;
-  border: 1px solid #f7b6ff;
+  border: 1px solid #EAEAEA;
+  border-radius: 3px;
 }
 .detail textarea{
   display: block;
@@ -201,19 +203,28 @@ a.delete:hover{
   margin-top: 20px;
   padding: 5px 10px;
   height: 150px;
-  border: 1px solid #f7b6ff;
+  border: 1px solid #EAEAEA;
+  border-radius: 3px;
 }
 .detail button{
   padding: 5px 20px;
-  border: 1px solid #f7b6ff;
+  border: 1px solid #EAEAEA;
   color: #000;
   background: #FFF;
   margin-top: 10px;
   margin-right: 10px;
+  border-radius: 3px;
+  transition: all 0.2s ease-out;
 }
 
-
-
+.detail input:focus,.detail textarea:focus{
+  border: 1px solid #e300fe;
+}
+.detail button:hover{
+  background: #e300fe;
+  border: 1px solid #e300fe;
+  color: #FFF;
+}
 
 
 
