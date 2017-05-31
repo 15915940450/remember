@@ -5,7 +5,11 @@ class R extends React.Component{
   constructor(props) {
     super(props);
     // console.log(props);
-    this.state={li:[]};
+    this.state={li:[
+      {strNeirong:"111",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true},
+      {strNeirong:"222",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false}
+    ]};
+    // this.state={li:[]};
   }
   //包括 Tab，GlobalOperate，Add，TaskList
   render(){
@@ -15,7 +19,7 @@ class R extends React.Component{
           <Tab />
           <GlobalOperate />
           <Add />
-          <TaskList />
+          <TaskList propLi={this.state.li} />
         </div>
         <Detail />
       </section>
@@ -73,7 +77,12 @@ class Add extends React.Component{
 class TaskList extends React.Component{
   constructor(props){
     super(props);
-    // console.log(props);
+    console.log(JSON.stringify(props));
+  }
+  selectLi(i){
+    return ()=>{
+      console.log(i);
+    }
   }
   render(){
     //arrP 畫筆記本橫線
@@ -82,24 +91,25 @@ class TaskList extends React.Component{
     for(var i=0;i<numLine;i++){
       arrP.push(<p key={i}></p>);
     }
+
+    // arrLi,此處map()必須用箭頭函數，否則this為undefined
+    var arrLi=this.props.propLi.map((v,i)=>{
+      return (
+        <li key={v.numTimestampHaomiao}>
+          <label>
+            <input type="checkbox" onClick={this.selectLi(i).bind(this)} />
+            <span>{v.strNeirong}</span>
+          </label>
+        </li>
+      );
+    });
     return (
       <div className="task_list">
         <div className="bg_line">
           {arrP}
         </div>
         <ul>
-          <li>
-            <label>
-              <input type="checkbox" name="" value="" />
-              <span>聽說、ka</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" name="" value="" />
-              <span>聽說、ka2</span>
-            </label>
-          </li>
+          {arrLi}
         </ul>
       </div>
     );
@@ -109,7 +119,7 @@ class TaskList extends React.Component{
 class Detail extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
+    // console.log(props);
   }
   render(){
     return (

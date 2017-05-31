@@ -180,6 +180,10 @@ a.delete:hover{
 .task_list ul li span{
   color: #000;
   font-size: 15px;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
 
 .detail{
