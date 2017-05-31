@@ -6,12 +6,18 @@ class R extends React.Component{
     super(props);
     // console.log(props);
     this.state={li:[
-      {strNeirong:"111",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true},
-      {strNeirong:"222",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false}
+      {strNeirong:"111",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
+      {strNeirong:"222",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
     ]};
     // this.state={li:[]};
   }
-  //包括 Tab，GlobalOperate，Add，TaskList
+  rSelectLi(i){
+    var arrStateLi=this.state.li;
+    //選中反轉(onChange),setState is a function
+    arrStateLi[i].bSelect=!arrStateLi[i].bSelect;
+    this.setState({li:arrStateLi});
+  }
+  //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
     return (
       <section className="capital_r">
@@ -19,7 +25,7 @@ class R extends React.Component{
           <Tab />
           <GlobalOperate />
           <Add />
-          <TaskList propLi={this.state.li} />
+          <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} />
         </div>
         <Detail />
       </section>
@@ -81,7 +87,7 @@ class TaskList extends React.Component{
   }
   selectLi(i){
     return ()=>{
-      console.log(i);
+      this.props.rSelectLi(i);
     }
   }
   render(){
@@ -94,10 +100,11 @@ class TaskList extends React.Component{
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
     var arrLi=this.props.propLi.map((v,i)=>{
+      var strActiveOrNot=v.bSelect?'active':'';
       return (
-        <li key={v.numTimestampHaomiao}>
+        <li key={v.numTimestampHaomiao} className={strActiveOrNot}>
           <label>
-            <input type="checkbox" onClick={this.selectLi(i).bind(this)} />
+            <input checked={v.bSelect} type="checkbox" onChange={this.selectLi(i).bind(this)} />
             <span>{v.strNeirong}</span>
           </label>
         </li>
