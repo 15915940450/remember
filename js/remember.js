@@ -6,8 +6,8 @@ class R extends React.Component{
     super(props);
     // console.log(props);
     this.state={li:[
-      {strNeirong:"111",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
-      {strNeirong:"222",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
+      {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
+      {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
     ]};
     // this.state={li:[]};
   }
@@ -27,7 +27,7 @@ class R extends React.Component{
           <Add />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} />
         </div>
-        <Detail />
+        <Detail propLi={this.state.li} />
       </section>
     );
   }
@@ -83,7 +83,7 @@ class Add extends React.Component{
 class TaskList extends React.Component{
   constructor(props){
     super(props);
-    console.log(JSON.stringify(props));
+    // console.log('86'+JSON.stringify(props));
   }
   selectLi(i){
     return ()=>{
@@ -99,7 +99,8 @@ class TaskList extends React.Component{
     }
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
-    var arrLi=this.props.propLi.map((v,i)=>{
+    var Rdata=this.props.propLi;
+    var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
       return (
         <li key={v.numTimestampHaomiao} className={strActiveOrNot}>
@@ -126,17 +127,32 @@ class TaskList extends React.Component{
 class Detail extends React.Component{
   constructor(props){
     super(props);
-    // console.log(props);
+    console.log(JSON.stringify(props));
   }
   render(){
-    return (
-      <div className="detail">
-        <input type="text" value="" placeholder="任務" />
-        <textarea placeholder="心得"></textarea>
-        <button type="button">確定</button>
-        <button type="button">取消</button>
-      </div>
-    );
+    var Rdata=this.props.propLi;
+    var numSelect=0;
+    var numLiIndex=0;
+    for(var i=0;i<Rdata.length;i++){
+      if(Rdata[i].bSelect){
+        numSelect++;
+        numLiIndex=i;
+      }
+    }
+    //當只選中一個，則顯示任務詳情，否則返回null，不顯示
+    if(numSelect===1){
+      return (
+        <div className="detail">
+          <input type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" />
+          <textarea defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得"></textarea>
+          <button type="button">確定</button>
+          <button type="button">取消</button>
+        </div>
+      );
+    }else{
+      return null;
+    }
+
   }
 }
 
