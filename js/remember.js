@@ -1,7 +1,7 @@
 var eleContainer=document.querySelector('#container');
 
 // 使用localStorage
-var strLiSave=window.localStorage.li || '[{"strNeirong":"111111111","strXinde":"看阿森的","numTimestampHaomiao":1495617621946,"bWancheng":false,"bMatchSearch":true,"bSelect":true},{"strNeirong":"222222","strXinde":"看阿阿囧黃吧","numTimestampHaomiao":1495617621947,"bWancheng":false,"bMatchSearch":false,"bSelect":false}]';
+var strLiSave=window.localStorage.li || '[]';
 var arrLiSave=JSON.parse(strLiSave);
 
 // 類R state
@@ -10,11 +10,14 @@ class R extends React.Component{
     super(props);
     // console.log(props);
     this.state={li:arrLiSave};
-    // this.state={li:[
-    //   {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
-    //   {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
-    // ]};
-    // this.state={li:[]};
+    /*
+    *strNeirong,strXinde,numTimestampHaomiao,bWancheng,bMatchSearch,bSelect
+    this.state={li:[
+      {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
+      {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
+    ]};
+    this.state={li:[]};
+    */
   }
   rSelectLi(i){
     var arrStateLi=this.state.li;
@@ -51,9 +54,21 @@ class R extends React.Component{
     arrStateLi[numLiIndex].strXinde=strXinde;
 
     this.setState({li:arrStateLi});
-    //存貯與localStorage
+    //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  rAddLi(strNeirong){
+    //{strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
+    var arrStateLi=this.state.li;
+
+    var objLi={strNeirong:strNeirong,strXinde:"",numTimestampHaomiao:Date.now(),bWancheng:false,bMatchSearch:false,bSelect:false};
+    arrStateLi.push(objLi);
+
+    this.setState({li:arrStateLi});
+    //存貯于localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
+
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
     return (
@@ -61,7 +76,7 @@ class R extends React.Component{
         <div className="remember">
           <Tab />
           <GlobalOperate />
-          <Add />
+          <Add rAddLi={this.rAddLi.bind(this)} />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
         <Detail propLi={this.state.li} rEditLi={this.rEditLi.bind(this)} />
@@ -109,24 +124,36 @@ class Add extends React.Component{
   }
   displayAddButton(){
     this.eleButton.style.display='';
+    this.enableAddButton();
   }
   handleBlur(){
+    // console.log('blur');
     this.eleButton.style.display='none';
   }
   enableAddButton(){
     var strEmptyString=this.eleInput.value;
-    console.log(strEmptyString);
+    // console.log(strEmptyString);
     if(strEmptyString.trim()===''){
       this.eleButton.disabled=true;
     }else{
       this.eleButton.disabled=false;
     }
   }
+  // onMouseDown先于blur，blur先于click
+  addLi(){
+    // console.log(ev);
+    var strNeirong=this.eleInput.value;
+    this.props.rAddLi(strNeirong);
+    this.eleInput.value='';
+    // window.setTimeout(()=>{
+    //   this.eleInput.focus();
+    // },300);
+  }
   render(){
     return (
       <div className="add">
         <input ref={(a)=>{this.eleInput=a}} type="text" placeholder="添加一個任務" onFocus={this.displayAddButton.bind(this)} onBlur={this.handleBlur.bind(this)} onInput={this.enableAddButton.bind(this)} />
-        <button ref={(a)=>{this.eleButton=a}} style={{display:'none'}} type="button" disabled="disabled">add</button>
+        <button ref={(a)=>{this.eleButton=a}} style={{display:'none'}} type="button" onMouseDown={this.addLi.bind(this)}>add</button>
       </div>
     );
   }
