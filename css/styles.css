@@ -195,21 +195,27 @@ a.delete:hover{
   width: 300px;
   padding:20px 30px;
 }
+.detail p{
+  color: #999;
+  margin-top: 20px;
+}
 .detail input{
   display: block;
   width: 100%;
   padding: 5px 10px;
   border: 1px solid #EAEAEA;
   border-radius: 3px;
+  font-size: 15px;
+  font-weight: bold;
 }
 .detail textarea{
   display: block;
   width: 100%;
-  margin-top: 20px;
   padding: 5px 10px;
   height: 150px;
   border: 1px solid #EAEAEA;
   border-radius: 3px;
+  font-size: 15px;
 }
 .detail button{
   padding: 5px 20px;

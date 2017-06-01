@@ -183,8 +183,43 @@ class Detail extends React.Component{
       this.props.rEditLi(numLiIndex,strNeirong,strXinde);
     }
   }
-  discard(){
-
+  discard(strNeirongBefore,strXindeBefore){
+    return ()=>{
+      // 手動模擬設置輸入值為原始值來執行函數displayResetButton
+      this.eleInput.value=strNeirongBefore;
+      this.eleTextarea.value=strXindeBefore;
+      // (this.displayResetButton(strNeirongBefore,strXindeBefore))(); 1,2,3,4
+      this.eleSubmit.style.display='none';
+      this.eleReset.style.display='none';
+      this.eleInput.style.backgroundColor='#FFF';
+      this.eleTextarea.style.backgroundColor='#FFF';
+    }
+  }
+  displayResetButton(strNeirongBefore,strXindeBefore){
+    return ()=>{
+      var strNeirong=this.eleInput.value;
+      var strXinde=this.eleTextarea.value;
+      //當標題與心得都沒發生改變時才不顯示按鈕
+      if(strNeirong===strNeirongBefore && strXinde===strXindeBefore){
+        this.eleSubmit.style.display='none';
+        this.eleReset.style.display='none';
+      }else{
+        this.eleSubmit.style.display='';
+        this.eleReset.style.display='';
+      }
+      // 標題內容，輸入框
+      if(strNeirong!==strNeirongBefore){
+        this.eleInput.style.backgroundColor='#FFE7D7';
+      }else{
+        this.eleInput.style.backgroundColor='#FFF';
+      }
+      // 心得，文本框
+      if(strXinde!==strXindeBefore){
+        this.eleTextarea.style.backgroundColor='#FFE7D7';
+      }else{
+        this.eleTextarea.style.backgroundColor='#FFF';
+      }
+    }
   }
   render(){
     var Rdata=this.props.propLi;
@@ -201,10 +236,12 @@ class Detail extends React.Component{
     if(numSelect===1){
       return (
         <div className="detail" key={Math.random()}>
-          <input ref={(a)=>{this.eleInput=a;}} type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" />
-          <textarea ref={(a)=>{this.eleTextarea=a;}} defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得"></textarea>
-          <button type="button" onClick={this.editLi(numLiIndex).bind(this)}>確定</button>
-          <button type="button" onClick={this.discard.bind(this)}>取消</button>
+          <p>任務標題：</p>
+          <input ref={(a)=>{this.eleInput=a;}} type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" onInput={this.displayResetButton(Rdata[numLiIndex].strNeirong,Rdata[numLiIndex].strXinde).bind(this)} />
+          <p>您的心得：</p>
+          <textarea ref={(a)=>{this.eleTextarea=a;}} defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得" onInput={this.displayResetButton(Rdata[numLiIndex].strNeirong,Rdata[numLiIndex].strXinde).bind(this)}></textarea>
+          <button ref={(a)=>{this.eleSubmit=a;}} style={{display:'none'}} type="button" onClick={this.editLi(numLiIndex).bind(this)}>確定</button>
+          <button ref={(a)=>{this.eleReset=a;}} style={{display:'none'}} type="button" onClick={this.discard(Rdata[numLiIndex].strNeirong,Rdata[numLiIndex].strXinde).bind(this)}>取消</button>
         </div>
       );
     }else{
