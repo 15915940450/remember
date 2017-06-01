@@ -1,14 +1,19 @@
 var eleContainer=document.querySelector('#container');
 
-// 類R
+// 使用localStorage
+var strLiSave=window.localStorage.li || '[{"strNeirong":"111111111","strXinde":"看阿森的","numTimestampHaomiao":1495617621946,"bWancheng":false,"bMatchSearch":true,"bSelect":true},{"strNeirong":"222222","strXinde":"看阿阿囧黃吧","numTimestampHaomiao":1495617621947,"bWancheng":false,"bMatchSearch":false,"bSelect":false}]';
+var arrLiSave=JSON.parse(strLiSave);
+
+// 類R state
 class R extends React.Component{
   constructor(props) {
     super(props);
     // console.log(props);
-    this.state={li:[
-      {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
-      {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
-    ]};
+    this.state={li:arrLiSave};
+    // this.state={li:[
+    //   {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
+    //   {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
+    // ]};
     // this.state={li:[]};
   }
   rSelectLi(i){
@@ -39,6 +44,16 @@ class R extends React.Component{
     // console.log(JSON.stringify(arrStateLi));
     this.setState({li:arrStateLi});
   }
+  rEditLi(numLiIndex,strNeirong,strXinde){
+    var arrStateLi=this.state.li;
+
+    arrStateLi[numLiIndex].strNeirong=strNeirong;
+    arrStateLi[numLiIndex].strXinde=strXinde;
+
+    this.setState({li:arrStateLi});
+    //存貯與localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
     return (
@@ -49,7 +64,7 @@ class R extends React.Component{
           <Add />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
-        <Detail propLi={this.state.li} />
+        <Detail propLi={this.state.li} rEditLi={this.rEditLi.bind(this)} />
       </section>
     );
   }
@@ -160,6 +175,17 @@ class Detail extends React.Component{
     super(props);
     // console.log(JSON.stringify(props));
   }
+  editLi(numLiIndex){
+    return ()=>{
+      // 獲取輸入內容,ref={函數}
+      var strNeirong=this.eleInput.value;
+      var strXinde=this.eleTextarea.value;
+      this.props.rEditLi(numLiIndex,strNeirong,strXinde);
+    }
+  }
+  discard(){
+
+  }
   render(){
     var Rdata=this.props.propLi;
     var numSelect=0;
@@ -175,10 +201,10 @@ class Detail extends React.Component{
     if(numSelect===1){
       return (
         <div className="detail" key={Math.random()}>
-          <input type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" />
-          <textarea defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得"></textarea>
-          <button type="button">確定</button>
-          <button type="button">取消</button>
+          <input ref={(a)=>{this.eleInput=a;}} type="text" defaultValue={Rdata[numLiIndex].strNeirong} placeholder="任務" />
+          <textarea ref={(a)=>{this.eleTextarea=a;}} defaultValue={Rdata[numLiIndex].strXinde} placeholder="心得"></textarea>
+          <button type="button" onClick={this.editLi(numLiIndex).bind(this)}>確定</button>
+          <button type="button" onClick={this.discard.bind(this)}>取消</button>
         </div>
       );
     }else{
