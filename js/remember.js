@@ -19,10 +19,23 @@ class R extends React.Component{
   }
   rSelectSingle(i){
     var arrStateLi=this.state.li;
+    //存貯操作之前的選擇狀態
+    var bSelectBeforeO=arrStateLi[i].bSelect;
+    var numSelect=0;
     for(var j=0;j<arrStateLi.length;j++){
+      if(arrStateLi[j].bSelect){
+        numSelect++;
+      }
+      // 全部設為未選中
       arrStateLi[j].bSelect=false;
     }
-    arrStateLi[i].bSelect=true;
+    // 如果只有一條被選中，則反轉當前點擊，否則始終設置當前為選中
+    if(numSelect===1){
+      arrStateLi[i].bSelect=!bSelectBeforeO;
+    }else{
+      arrStateLi[i].bSelect=true;
+    }
+
     // console.log(JSON.stringify(arrStateLi));
     this.setState({li:arrStateLi});
   }
