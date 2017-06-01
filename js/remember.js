@@ -107,11 +107,26 @@ class Add extends React.Component{
     super(props);
     // console.log(props);
   }
+  displayAddButton(){
+    this.eleButton.style.display='';
+  }
+  handleBlur(){
+    this.eleButton.style.display='none';
+  }
+  enableAddButton(){
+    var strEmptyString=this.eleInput.value;
+    console.log(strEmptyString);
+    if(strEmptyString.trim()===''){
+      this.eleButton.disabled=true;
+    }else{
+      this.eleButton.disabled=false;
+    }
+  }
   render(){
     return (
       <div className="add">
-        <input type="text" placeholder="添加一個任務" name="" value="" />
-        <button type="button" disabled="disabled">add</button>
+        <input ref={(a)=>{this.eleInput=a}} type="text" placeholder="添加一個任務" onFocus={this.displayAddButton.bind(this)} onBlur={this.handleBlur.bind(this)} onInput={this.enableAddButton.bind(this)} />
+        <button ref={(a)=>{this.eleButton=a}} style={{display:'none'}} type="button" disabled="disabled">add</button>
       </div>
     );
   }
