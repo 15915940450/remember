@@ -69,6 +69,16 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  rDeleteLi(){
+    var arrStateLi=this.state.li;
+    console.log(JSON.stringify(arrStateLi));
+    arrStateLi=arrStateLi.filter(function(v){
+      return !v.bSelect;
+    });
+    this.setState({li:arrStateLi});
+    //存貯于localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
@@ -76,7 +86,7 @@ class R extends React.Component{
       <section className="capital_r">
         <div className="remember">
           <Tab />
-          <GlobalOperate />
+          <GlobalOperate rDeleteLi={this.rDeleteLi.bind(this)} />
           <Add rAddLi={this.rAddLi.bind(this)} />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
@@ -107,12 +117,17 @@ class GlobalOperate extends React.Component{
     super(props);
     // console.log(props);
   }
+  deleteLi(){
+    return ()=>{
+      this.props.rDeleteLi();
+    }
+  }
   render(){
     return (
       <div className="global_operate">
         <p className="select"><input type="checkbox" name="" value="" /></p>
         <a href="javascript:;" className="complete">標記為已完成</a>
-        <a href="javascript:;" className="delete">刪除</a>
+        <a href="javascript:;" className="delete" onClick={this.deleteLi().bind(this)}>刪除</a>
       </div>
     );
   }
