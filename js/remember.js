@@ -78,6 +78,22 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  rChangeStatus(){
+    var arrStateLi=this.state.li;
+    console.log(JSON.stringify(arrStateLi));
+    arrStateLi=arrStateLi.map(function(v){
+      if(v.bSelect){
+        //設為完成，選中變為為選中
+        v.bWancheng=!v.bWancheng;
+        v.bSelect=!v.bSelect;
+      }
+      return v;
+    });
+    console.log(JSON.stringify(arrStateLi));
+    this.setState({li:arrStateLi});
+    //存貯于localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
@@ -85,7 +101,7 @@ class R extends React.Component{
       <section className="capital_r">
         <div className="remember">
           <Tab />
-          <GlobalOperate rDeleteLi={this.rDeleteLi.bind(this)} />
+          <GlobalOperate rDeleteLi={this.rDeleteLi.bind(this)} rChangeStatus={this.rChangeStatus.bind(this)} />
           <Add rAddLi={this.rAddLi.bind(this)} />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
@@ -119,11 +135,14 @@ class GlobalOperate extends React.Component{
   deleteLi(){
     this.props.rDeleteLi();
   }
+  changeStatus(){
+    this.props.rChangeStatus();
+  }
   render(){
     return (
       <div className="global_operate">
         <p className="select"><input type="checkbox" name="" value="" /></p>
-        <a href="javascript:;" className="complete">標記為已完成</a>
+        <a href="javascript:;" className="complete" onClick={this.changeStatus.bind(this)}>標記為已完成</a>
         <a href="javascript:;" className="delete" onClick={this.deleteLi.bind(this)}>刪除</a>
       </div>
     );
@@ -208,6 +227,10 @@ class TaskList extends React.Component{
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
     var Rdata=this.props.propLi;
+    console.log(Rdata);
+    Rdata=Rdata.filter(function(v){
+      return !v.bWancheng;
+    });
     var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
       return (
