@@ -71,7 +71,6 @@ class R extends React.Component{
   }
   rDeleteLi(){
     var arrStateLi=this.state.li;
-    console.log(JSON.stringify(arrStateLi));
     arrStateLi=arrStateLi.filter(function(v){
       return !v.bSelect;
     });
@@ -118,16 +117,14 @@ class GlobalOperate extends React.Component{
     // console.log(props);
   }
   deleteLi(){
-    return ()=>{
-      this.props.rDeleteLi();
-    }
+    this.props.rDeleteLi();
   }
   render(){
     return (
       <div className="global_operate">
         <p className="select"><input type="checkbox" name="" value="" /></p>
         <a href="javascript:;" className="complete">標記為已完成</a>
-        <a href="javascript:;" className="delete" onClick={this.deleteLi().bind(this)}>刪除</a>
+        <a href="javascript:;" className="delete" onClick={this.deleteLi.bind(this)}>刪除</a>
       </div>
     );
   }
