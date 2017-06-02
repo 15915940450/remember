@@ -20,14 +20,22 @@ class R extends React.Component{
     this.state={li:[]};
     */
   }
-  rSelectLi(i){
+  rSelectLi(numTimestampHaomiao){
     var arrStateLi=this.state.li;
     //選中反轉(onChange),setState is a function
-    arrStateLi[i].bSelect=!arrStateLi[i].bSelect;
+    arrStateLi=arrStateLi.map(function(v){
+      if(v.numTimestampHaomiao===numTimestampHaomiao){
+        v.bSelect=!v.bSelect;
+      }
+      return v;
+    });
     this.setState({li:arrStateLi});
   }
-  rSelectSingle(i){
+  rSelectSingle(numTimestampHaomiao){
     var arrStateLi=this.state.li;
+    var i=arrStateLi.findIndex(function(v){
+      return v.numTimestampHaomiao===numTimestampHaomiao;
+    });
     //存貯操作之前的選擇狀態
     var bSelectBeforeO=arrStateLi[i].bSelect;
     var numSelect=0;
@@ -80,7 +88,6 @@ class R extends React.Component{
   }
   rChangeStatus(){
     var arrStateLi=this.state.li;
-    console.log(JSON.stringify(arrStateLi));
     arrStateLi=arrStateLi.map(function(v){
       if(v.bSelect){
         //設為完成，選中變為為選中
@@ -89,7 +96,6 @@ class R extends React.Component{
       }
       return v;
     });
-    console.log(JSON.stringify(arrStateLi));
     this.setState({li:arrStateLi});
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
@@ -203,14 +209,14 @@ class TaskList extends React.Component{
     super(props);
     // console.log('86'+JSON.stringify(props));
   }
-  selectLi(i){
+  selectLi(numTimestampHaomiao){
     return ()=>{
-      this.props.rSelectLi(i);
+      this.props.rSelectLi(numTimestampHaomiao);
     }
   }
-  selectSingle(i){
+  selectSingle(numTimestampHaomiao){
     return ()=>{
-      this.props.rSelectSingle(i);
+      this.props.rSelectSingle(numTimestampHaomiao);
     }
   }
   //stopPropagation:以防對p的點擊事件selectSingle造成影響
@@ -227,16 +233,17 @@ class TaskList extends React.Component{
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
     var Rdata=this.props.propLi;
-    console.log(Rdata);
+
     Rdata=Rdata.filter(function(v){
       return !v.bWancheng;
     });
+    // console.log(Rdata);
     var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
       return (
         <li key={v.numTimestampHaomiao} className={strActiveOrNot}>
-          <p onClick={this.selectSingle(i).bind(this)}>
-            <input checked={v.bSelect} type="checkbox" onClick={this.stop.bind(this)} onChange={this.selectLi(i).bind(this)} />
+          <p onClick={this.selectSingle(v.numTimestampHaomiao).bind(this)}>
+            <input checked={v.bSelect} type="checkbox" onClick={this.stop.bind(this)} onChange={this.selectLi(v.numTimestampHaomiao).bind(this)} />
             <span>{v.strNeirong}</span>
           </p>
         </li>
