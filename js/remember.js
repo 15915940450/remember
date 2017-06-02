@@ -3,7 +3,8 @@ var eleContainer=document.querySelector('#container');
 // 使用localStorage
 var strLiSave=window.localStorage.li || '[]';
 var arrLiSave=JSON.parse(strLiSave);
-
+// 全局變量 bClickAddButton ，用來決定addInput是否需要失焦
+var bClickAddButton=false;
 // 類R state
 class R extends React.Component{
   constructor(props) {
@@ -122,32 +123,39 @@ class Add extends React.Component{
     super(props);
     // console.log(props);
   }
+  // onFocus
   displayAddButton(){
     this.eleButton.style.display='';
     this.enableAddButton();
+    bClickAddButton=false;
   }
+  // onBlur
   handleBlur(){
-    // console.log('blur');
-    this.eleButton.style.display='none';
+    if(bClickAddButton){
+      //如若點擊了addButton
+      window.setTimeout(()=>{
+        this.eleInput.focus();
+      },0);
+    }else{
+      //正常失焦，button隱藏
+      this.eleButton.style.display='none';
+    }
   }
   enableAddButton(){
     var strEmptyString=this.eleInput.value;
-    // console.log(strEmptyString);
     if(strEmptyString.trim()===''){
       this.eleButton.disabled=true;
     }else{
       this.eleButton.disabled=false;
     }
   }
-  // onMouseDown先于blur，blur先于click
+  // onMouseDown 先于blur，blur先于click
+  // onMouseDown ,點擊了按鈕
   addLi(){
-    // console.log(ev);
     var strNeirong=this.eleInput.value;
     this.props.rAddLi(strNeirong);
     this.eleInput.value='';
-    // window.setTimeout(()=>{
-    //   this.eleInput.focus();
-    // },300);
+    bClickAddButton=true;
   }
   render(){
     return (
