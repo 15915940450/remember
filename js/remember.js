@@ -1,8 +1,12 @@
 var eleContainer=document.querySelector('#container');
 
 // 使用localStorage
-var strLiSave=window.localStorage.li || '[]';
-var arrLiSave=JSON.parse(strLiSave);
+var strLiNOTWanchengSave=window.localStorage.liNOTWancheng || '[]';
+var strLiWanchengSave=window.localStorage.liWancheng || '[]';
+var strActiveTab=window.localStorage.activeTab || 'liNOTWancheng';
+
+var arrLiNOTWanchengSave=JSON.parse(strLiNOTWanchengSave);
+var arrLiWanchengSave=JSON.parse(strLiWanchengSave);
 // 全局變量 bClickAddButton ，用來決定addInput是否需要失焦
 var bClickAddButton=false;
 // 類R state
@@ -10,15 +14,7 @@ class R extends React.Component{
   constructor(props) {
     super(props);
     // console.log(props);
-    this.state={li:arrLiSave};
-    /*
-    *strNeirong,strXinde,numTimestampHaomiao,bWancheng,bMatchSearch,bSelect
-    this.state={li:[
-      {strNeirong:"111",strXinde:"看阿森的",numTimestampHaomiao:1495617621946,bWancheng:false,bMatchSearch:true,bSelect:true},
-      {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
-    ]};
-    this.state={li:[]};
-    */
+    this.state={li:arrLiNOTWanchengSave,activeTab:strActiveTab};
   }
   rSelectLi(numTimestampHaomiao){
     var arrStateLi=this.state.li;
@@ -66,16 +62,17 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  // 添加
   rAddLi(strNeirong){
-    //{strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bWancheng:false,bMatchSearch:false,bSelect:false}
+    // {strNeirong:"222",strXinde:"看阿阿囧黃吧",numTimestampHaomiao:1495617621947,bMatchSearch:false,bSelect:false}
     var arrStateLi=this.state.li;
 
-    var objLi={strNeirong:strNeirong,strXinde:"",numTimestampHaomiao:Date.now(),bWancheng:false,bMatchSearch:false,bSelect:false};
+    var objLi={strNeirong:strNeirong,strXinde:"",numTimestampHaomiao:Date.now(),bMatchSearch:false,bSelect:false};
     arrStateLi.push(objLi);
 
     this.setState({li:arrStateLi});
     //存貯于localStorage
-    window.localStorage.li=JSON.stringify(arrStateLi);
+    window.localStorage.liNOTWancheng=JSON.stringify(arrStateLi);
   }
   rDeleteLi(){
     var arrStateLi=this.state.li;
@@ -84,21 +81,14 @@ class R extends React.Component{
     });
     this.setState({li:arrStateLi});
     //存貯于localStorage
-    window.localStorage.li=JSON.stringify(arrStateLi);
+    window.localStorage.liNOTWancheng=JSON.stringify(arrStateLi);
   }
   rChangeStatus(){
     var arrStateLi=this.state.li;
-    arrStateLi=arrStateLi.map(function(v){
-      if(v.bSelect){
-        //設為完成，選中變為為選中
-        v.bWancheng=!v.bWancheng;
-        v.bSelect=!v.bSelect;
-      }
-      return v;
-    });
+console.log(arrStateLi);
     this.setState({li:arrStateLi});
     //存貯于localStorage
-    window.localStorage.li=JSON.stringify(arrStateLi);
+    window.localStorage.liNOTWancheng=JSON.stringify(arrStateLi);
   }
   rSelectAllOrNone(){
     var arrStateLi=this.state.li;
@@ -126,13 +116,20 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  rDisplayWancheng(){
+    var arrStateLi=this.state.li;
+
+    this.setState({li:arrStateLi});
+    //存貯于localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
     return (
       <section className="capital_r">
         <div className="remember">
-          <Tab />
+          <Tab rDisplayWancheng={this.rDisplayWancheng.bind(this)} />
           <GlobalOperate propLi={this.state.li} rDeleteLi={this.rDeleteLi.bind(this)} rChangeStatus={this.rChangeStatus.bind(this)} rSelectAllOrNone={this.rSelectAllOrNone.bind(this)} />
           <Add rAddLi={this.rAddLi.bind(this)} />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
@@ -149,11 +146,15 @@ class Tab extends React.Component{
     super(props);
     // console.log(props);
   }
+  displayWancheng(){
+    this.props.rDisplayWancheng();
+  }
+
   render(){
     return (
       <div className="tab">
         <a href="javascript:;" className="active">未完成</a>
-        <a href="javascript:;">已完成任務</a>
+        <a href="javascript:;" onClick={this.displayWancheng.bind(this)}>已完成任務</a>
       </div>
     );
   }
@@ -178,14 +179,11 @@ class GlobalOperate extends React.Component{
     var Rdata=this.props.propLi;
 
     var numChecked=Rdata.findIndex(function(v){
-      return (!v.bSelect && !v.bWancheng);
-    });
-    var numWeiWancheng=Rdata.findIndex(function(v){
-      return !v.bWancheng;
+      return (!v.bSelect);
     });
     // 全選
     var bChecked=false;
-    if(numChecked===-1 && numWeiWancheng!==-1){
+    if(numChecked===-1){
       bChecked=true;
     }
     return (
@@ -276,11 +274,9 @@ class TaskList extends React.Component{
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
     var Rdata=this.props.propLi;
-
-    Rdata=Rdata.filter(function(v){
-      return !v.bWancheng;
-    });
+    // Rdata.shift()
     // console.log(Rdata);
+
     var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
       return (
