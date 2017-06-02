@@ -100,6 +100,32 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage.li=JSON.stringify(arrStateLi);
   }
+  rSelectAllOrNone(){
+    var arrStateLi=this.state.li;
+    var bNowStatusIsSelectAll=false;
+    var numNowStatusIsSelectAll=arrStateLi.findIndex(function(v){
+      return (!v.bSelect && !v.bWancheng);
+    });
+    if(numNowStatusIsSelectAll===-1){
+      bNowStatusIsSelectAll=true;
+    }
+
+    arrStateLi=arrStateLi.map(function(v){
+      if(!v.bWancheng){
+        if(bNowStatusIsSelectAll){
+          v.bSelect=false;
+        }else{
+          v.bSelect=true;
+        }
+      }
+
+      return v;
+    });
+
+    this.setState({li:arrStateLi});
+    //存貯于localStorage
+    window.localStorage.li=JSON.stringify(arrStateLi);
+  }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
@@ -107,7 +133,7 @@ class R extends React.Component{
       <section className="capital_r">
         <div className="remember">
           <Tab />
-          <GlobalOperate rDeleteLi={this.rDeleteLi.bind(this)} rChangeStatus={this.rChangeStatus.bind(this)} />
+          <GlobalOperate propLi={this.state.li} rDeleteLi={this.rDeleteLi.bind(this)} rChangeStatus={this.rChangeStatus.bind(this)} rSelectAllOrNone={this.rSelectAllOrNone.bind(this)} />
           <Add rAddLi={this.rAddLi.bind(this)} />
           <TaskList propLi={this.state.li} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
@@ -144,10 +170,27 @@ class GlobalOperate extends React.Component{
   changeStatus(){
     this.props.rChangeStatus();
   }
+  selectAllOrNone(){
+    this.props.rSelectAllOrNone();
+  }
+
   render(){
+    var Rdata=this.props.propLi;
+
+    var numChecked=Rdata.findIndex(function(v){
+      return (!v.bSelect && !v.bWancheng);
+    });
+    var numWeiWancheng=Rdata.findIndex(function(v){
+      return !v.bWancheng;
+    });
+    // 全選
+    var bChecked=false;
+    if(numChecked===-1 && numWeiWancheng!==-1){
+      bChecked=true;
+    }
     return (
       <div className="global_operate">
-        <p className="select"><input type="checkbox" name="" value="" /></p>
+        <p className="select"><input onChange={this.selectAllOrNone.bind(this)} type="checkbox" checked={bChecked} /></p>
         <a href="javascript:;" className="complete" onClick={this.changeStatus.bind(this)}>標記為已完成</a>
         <a href="javascript:;" className="delete" onClick={this.deleteLi.bind(this)}>刪除</a>
       </div>

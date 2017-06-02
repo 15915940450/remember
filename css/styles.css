@@ -82,8 +82,14 @@ h2{
 }
 .select{
   width: 26px;
+  position: relative;
+  top:6px;
 }
-.select input{}
+.select input{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
 
 .delete,.complete{
   color: #666;
