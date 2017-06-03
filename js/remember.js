@@ -4,7 +4,7 @@ var eleContainer=document.querySelector('#container');
 // localStorage={liNOTWancheng:'[]',liWancheng:'[]',activeTab:'liNOTWancheng'}
 var strLiNOTWanchengSave=window.localStorage.liNOTWancheng || '[]';
 var strLiWanchengSave=window.localStorage.liWancheng || '[]';
-var strActiveTab=window.localStorage.activeTab || 'liNOTWancheng';
+var strActiveTab='liNOTWancheng';
 
 var arrLiNOTWanchengSave=JSON.parse(strLiNOTWanchengSave);
 var arrLiWanchengSave=JSON.parse(strLiWanchengSave);
@@ -92,9 +92,20 @@ class R extends React.Component{
   rChangeStatus(){
     var arrStateLi=this.state[this.state.activeTab];
     var arrStateLiWancheng=this.state.liWancheng;
-console.log(arrStateLi);
+
+    arrStateLi.forEach(function(v,i){
+      // console.log(v);
+      if(v.bSelect){
+        arrStateLiWancheng.push(v);
+        arrStateLi.splice(i,1);
+      }
+    });
+    // console.log(arrStateLiWancheng);
+    // console.log(arrStateLi);
+
     var objState={};
     objState[this.state.activeTab]=arrStateLi;
+    objState.liWancheng=arrStateLiWancheng;
     this.setState(objState);
     //存貯于localStorage
     window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
