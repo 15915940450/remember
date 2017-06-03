@@ -347,6 +347,9 @@ class TaskList extends React.Component{
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
     var Rdata=this.props.propLi[this.props.propLi.activeTab];
+    Rdata.sort(function(a,b){
+      return a.strNeirong.localeCompare(b.strNeirong);
+    });
 
     var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
