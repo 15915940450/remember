@@ -227,10 +227,18 @@ class GlobalOperate extends React.Component{
     if(numChecked===-1){
       bChecked=true;
     }
+    var strWanchengStatus='';
+    // console.log(this.props.propLi.activeTab);
+    if(this.props.propLi.activeTab==='liNOTWancheng'){
+      strWanchengStatus='已';
+    }else{
+      strWanchengStatus='未';
+    }
+
     return (
       <div className="global_operate">
         <p className="select"><input onChange={this.selectAllOrNone.bind(this)} type="checkbox" checked={bChecked} /></p>
-        <a href="javascript:;" className="complete" onClick={this.changeStatus.bind(this)}>標記為已完成</a>
+        <a href="javascript:;" className="complete" onClick={this.changeStatus.bind(this)}>標記為{strWanchengStatus}完成</a>
         <a href="javascript:;" className="delete" onClick={this.deleteLi.bind(this)}>刪除</a>
       </div>
     );
