@@ -31,6 +31,8 @@ class R extends React.Component{
     var objState={};
     objState[this.state.activeTab]=arrStateLi;
     this.setState(objState);
+    //存貯于localStorage
+    // window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rSelectSingle(numTimestampHaomiao){
     var arrStateLi=this.state[this.state.activeTab];
@@ -58,6 +60,8 @@ class R extends React.Component{
     var objState={};
     objState[this.state.activeTab]=arrStateLi;
     this.setState(objState);
+    //存貯于localStorage
+    // window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rEditLi(numLiIndex,strNeirong,strXinde){
     var arrStateLi=this.state[this.state.activeTab];
@@ -98,26 +102,42 @@ class R extends React.Component{
     window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rChangeStatus(){
+    var strOppositeKey='';
+    // arrOpposite的key有可能是liNOTWancheng，也有可能liWancheng
+    if(this.state.activeTab==='liNOTWancheng'){
+      strOppositeKey='liWancheng';
+    }else{
+      strOppositeKey='liNOTWancheng';
+    }
     var arrStateLi=this.state[this.state.activeTab];
-    var arrStateLiWancheng=this.state.liWancheng;
+    var arrOpposite=this.state[strOppositeKey];
 
-    arrStateLi.forEach(function(v,i){
-      // console.log(v);
+    // 將取消選擇，由未完成移向已完成
+    arrStateLi.forEach(function(v){
       if(v.bSelect){
-        arrStateLiWancheng.push(v);
-        arrStateLi.splice(i,1);
+        // v.bSelect=false;
+        arrOpposite.push(v);
+        // arrStateLi.splice(i,1);
       }
     });
-    // console.log(arrStateLiWancheng);
-    // console.log(arrStateLi);
+    //filter:留下未選擇的
+    arrStateLi=arrStateLi.filter(function(v){
+      return !v.bSelect;
+    });
+    //arrOpposite:取消選擇
+    arrOpposite.forEach(function(v){
+      if(v.bSelect){
+        v.bSelect=false;
+      }
+    });
 
     var objState={};
     objState[this.state.activeTab]=arrStateLi;
-    objState.liWancheng=arrStateLiWancheng;
+    objState[strOppositeKey]=arrOpposite;
     this.setState(objState);
     //存貯于localStorage
     window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
-    window.localStorage.liWancheng=JSON.stringify(arrStateLiWancheng);
+    window.localStorage[strOppositeKey]=JSON.stringify(arrOpposite);
   }
   rSelectAllOrNone(){
     var arrStateLi=this.state[this.state.activeTab];
@@ -227,7 +247,8 @@ class GlobalOperate extends React.Component{
     });
     // 全選
     var bChecked=false;
-    if(numChecked===-1){
+    // -1代表全部select，Rdata為空數組。注意：空數組轉為布爾值時為真
+    if(numChecked===-1 && Rdata.length){
       bChecked=true;
     }
     var strWanchengStatus='';
