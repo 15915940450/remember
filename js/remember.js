@@ -155,12 +155,15 @@ class R extends React.Component{
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
+    if(this.state.activeTab==='liNOTWancheng'){
+      var componentAdd=<Add rAddLi={this.rAddLi.bind(this)} />;
+    }
     return (
       <section className="capital_r">
         <div className="remember">
           <Tab propLi={this.state} rDisplayWancheng={this.rDisplayWancheng.bind(this)} />
           <GlobalOperate propLi={this.state} rDeleteLi={this.rDeleteLi.bind(this)} rChangeStatus={this.rChangeStatus.bind(this)} rSelectAllOrNone={this.rSelectAllOrNone.bind(this)} />
-          <Add rAddLi={this.rAddLi.bind(this)} />
+          {componentAdd}
           <TaskList propLi={this.state} rSelectLi={this.rSelectLi.bind(this)} rSelectSingle={this.rSelectSingle.bind(this)} />
         </div>
         <Detail propLi={this.state} rEditLi={this.rEditLi.bind(this)} />
