@@ -27,7 +27,10 @@ class R extends React.Component{
       }
       return v;
     });
-    this.setState({liNOTWancheng:arrStateLi});
+
+    var objState={};
+    objState[this.state.activeTab]=arrStateLi;
+    this.setState(objState);
   }
   rSelectSingle(numTimestampHaomiao){
     var arrStateLi=this.state[this.state.activeTab];
@@ -52,7 +55,9 @@ class R extends React.Component{
     }
 
     // console.log(JSON.stringify(arrStateLi));
-    this.setState({liNOTWancheng:arrStateLi});
+    var objState={};
+    objState[this.state.activeTab]=arrStateLi;
+    this.setState(objState);
   }
   rEditLi(numLiIndex,strNeirong,strXinde){
     var arrStateLi=this.state[this.state.activeTab];
@@ -60,9 +65,12 @@ class R extends React.Component{
     arrStateLi[numLiIndex].strNeirong=strNeirong;
     arrStateLi[numLiIndex].strXinde=strXinde;
 
-    this.setState({liNOTWancheng:arrStateLi});
+    // this.setState({liNOTWancheng:arrStateLi});
+    var objState={};
+    objState[this.state.activeTab]=arrStateLi;
+    this.setState(objState);
     //存貯于localStorage
-    window.localStorage.liNOTWancheng=JSON.stringify(arrStateLi);
+    window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   // 添加
   rAddLi(strNeirong){
@@ -75,7 +83,7 @@ class R extends React.Component{
     objState[this.state.activeTab]=arrStateLi;
     this.setState(objState);
     //存貯于localStorage
-    window.localStorage.liNOTWancheng=JSON.stringify(arrStateLi);
+    window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rDeleteLi(){
     var arrStateLi=this.state[this.state.activeTab];
@@ -139,15 +147,10 @@ class R extends React.Component{
   }
   rDisplayWancheng(){
     var strActiveTab='liWancheng';
-    var arrStateLi=this.state.liWancheng;
 
     var objState={};
     objState.activeTab=strActiveTab;
-    objState.liWancheng=arrStateLi;
     this.setState(objState);
-    //存貯于localStorage
-    window.localStorage.liWancheng=JSON.stringify(arrStateLi);
-    window.localStorage.activeTab=strActiveTab;
   }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
@@ -212,7 +215,7 @@ class GlobalOperate extends React.Component{
   }
 
   render(){
-    var Rdata=this.props.propLi.liNOTWancheng;
+    var Rdata=this.props.propLi[this.props.propLi.activeTab];
 
     var numChecked=Rdata.findIndex(function(v){
       return (!v.bSelect);
@@ -309,7 +312,7 @@ class TaskList extends React.Component{
     }
 
     // arrLi,此處map()必須用箭頭函數，否則this為undefined
-    var Rdata=this.props.propLi.liNOTWancheng;
+    var Rdata=this.props.propLi[this.props.propLi.activeTab];
 
     var arrLi=Rdata.map((v,i)=>{
       var strActiveOrNot=v.bSelect?'active':'';
@@ -387,7 +390,7 @@ class Detail extends React.Component{
     }
   }
   render(){
-    var Rdata=this.props.propLi.liNOTWancheng;
+    var Rdata=this.props.propLi[this.props.propLi.activeTab];
     var numSelect=0;
     var numLiIndex=0;
     for(var i=0;i<Rdata.length;i++){
