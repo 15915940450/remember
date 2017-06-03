@@ -145,8 +145,8 @@ class R extends React.Component{
     //存貯于localStorage
     window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
-  rDisplayWancheng(){
-    var strActiveTab='liWancheng';
+  rDisplayWancheng(bWancheng){
+    var strActiveTab=bWancheng?'liWancheng':'liNOTWancheng';
 
     var objState={};
     objState.activeTab=strActiveTab;
@@ -175,8 +175,10 @@ class Tab extends React.Component{
     super(props);
     // console.log(props);
   }
-  displayWancheng(){
-    this.props.rDisplayWancheng();
+  displayWancheng(bWancheng){
+    return ()=>{
+      this.props.rDisplayWancheng(bWancheng);
+    }
   }
 
   render(){
@@ -192,8 +194,8 @@ class Tab extends React.Component{
 
     return (
       <div className="tab">
-        <a href="javascript:;" className={arrActiveOrNot[0]}>未完成</a>
-        <a href="javascript:;" className={arrActiveOrNot[1]} onClick={this.displayWancheng.bind(this)}>已完成任務</a>
+        <a href="javascript:;" className={arrActiveOrNot[0]} onClick={this.displayWancheng(false).bind(this)}>未完成</a>
+        <a href="javascript:;" className={arrActiveOrNot[1]} onClick={this.displayWancheng(true).bind(this)}>已完成任務</a>
       </div>
     );
   }
