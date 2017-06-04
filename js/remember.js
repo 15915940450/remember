@@ -4,7 +4,7 @@ var eleContainer=document.querySelector('#container');
 // localStorage={liNOTWancheng:'[]',liWancheng:'[]',activeTab:'liNOTWancheng'}
 var strLiNOTWanchengSave=window.localStorage.liNOTWancheng || '[]';
 var strLiWanchengSave=window.localStorage.liWancheng || '[]';
-var strActiveTab='liNOTWancheng';
+var strActiveTab=window.localStorage.activeTab || 'liNOTWancheng';
 
 var arrLiNOTWanchengSave=JSON.parse(strLiNOTWanchengSave);
 var arrLiWanchengSave=JSON.parse(strLiWanchengSave);
@@ -32,7 +32,7 @@ class R extends React.Component{
     objState[this.state.activeTab]=arrStateLi;
     this.setState(objState);
     //存貯于localStorage
-    // window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
+    window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rSelectSingle(numTimestampHaomiao){
     var arrStateLi=this.state[this.state.activeTab];
@@ -61,7 +61,7 @@ class R extends React.Component{
     objState[this.state.activeTab]=arrStateLi;
     this.setState(objState);
     //存貯于localStorage
-    // window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
+    window.localStorage[this.state.activeTab]=JSON.stringify(arrStateLi);
   }
   rEditLi(numLiIndex,strNeirong,strXinde){
     var arrStateLi=this.state[this.state.activeTab];
@@ -171,6 +171,8 @@ class R extends React.Component{
     var objState={};
     objState.activeTab=strActiveTab;
     this.setState(objState);
+    //存貯于localStorage
+    window.localStorage.activeTab=strActiveTab;
   }
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
