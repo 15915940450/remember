@@ -261,7 +261,12 @@ class GlobalOperate extends React.Component{
 
     return (
       <div className="global_operate">
-        <p className="select"><input onChange={this.selectAllOrNone.bind(this)} type="checkbox" checked={bChecked} /></p>
+        <p className="select checkbox_wrap">
+          <input type="checkbox" id="cbtest" onChange={this.selectAllOrNone.bind(this)} type="checkbox" checked={bChecked} />
+          <label htmlFor="cbtest" className="check-box">
+            <span></span>
+          </label>
+        </p>
         <a href="javascript:;" className="complete" onClick={this.changeStatus.bind(this)}>標記為{strWanchengStatus}完成</a>
         <a href="javascript:;" className="delete" onClick={this.deleteLi.bind(this)}>刪除</a>
       </div>

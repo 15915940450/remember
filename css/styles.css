@@ -81,15 +81,15 @@ h2{
   margin-right: 15px;
 }
 .select{
-  width: 26px;
+  padding-top: 2px;
   position: relative;
-  top:6px;
+  top:2px;
 }
-.select input{
+/*.select input{
   display: inline-block;
   width: 24px;
   height: 24px;
-}
+}*/
 
 .delete,.complete{
   color: #666;

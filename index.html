@@ -5,6 +5,7 @@
 <meta charset="UTF-8" />
 <link rel="stylesheet" href="css/reset.css" />
 <link rel="stylesheet" href="css/grid_fee300.css" />
+<link rel="stylesheet" href="css/checkbox.css" />
 <link rel="stylesheet" href="css/styles.css" />
 <script src="js/react.js"></script>
 <script src="js/react-dom.js"></script>
@@ -23,7 +24,18 @@
     </div>
     <!-- 選擇與刪除 -->
     <div class="global_operate">
-      <p class="select"><input type="checkbox" name="" value="" /></p>
+      <!-- <div class="checkbox_wrap">
+        <input type="checkbox" id="cbtest" />
+        <label for="cbtest" class="check-box">
+          <span></span>
+        </label>
+      </div> -->
+      <p class="select checkbox_wrap">
+        <input type="checkbox" id="cbtest" />
+        <label for="cbtest" class="check-box">
+          <span></span>
+        </label>
+      </p>
       <a href="javascript:;" class="complete">標記為已完成</a>
       <a href="javascript:;" class="delete">刪除</a>
     </div>
