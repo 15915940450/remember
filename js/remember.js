@@ -177,8 +177,9 @@ class R extends React.Component{
 
   //包括 Tab，GlobalOperate，Add，TaskList,Detail
   render(){
+    var componentAdd;
     if(this.state.activeTab==='liNOTWancheng'){
-      var componentAdd=<Add rAddLi={this.rAddLi.bind(this)} />;
+      componentAdd=<Add rAddLi={this.rAddLi.bind(this)} />;
     }
     return (
       <section className="capital_r">
